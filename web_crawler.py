@@ -44,7 +44,7 @@ def get_pages(collection):
         links = [a_tag.get('href') for a_tag in soup.find_all('a')]
         for link in links:
             if collection.count() == MAX_QUESTIONS:
-                raise DataBaseFull("Finish")
+                raise DataBaseFull("Finish!")
             if preface.match(str(link)):
                 get_questions('http://stackoverflow.com' + link, collection)
         i += 1
