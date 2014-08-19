@@ -21,19 +21,23 @@ def get_questions(url, collection):
     :param url: The URL of the page with the questions
     :param collection: The DataBase collection
     """
-    content = BeautifulSoup(urllib2.urlopen(url).read())
-    _title = content.title.string
-    tag = [td_tag for td_tag in content.find_all('td') if td_tag.get('class') == [unicode("postcell")]][0]
-    body = tag.div.div.get_text()
-    _id = url.split("/")[4]
-    collection.insert({"Title": _title[0:len(_title) - 17], "Body": body, "Id": _id})
+    try:
+        content = BeautifulSoup(urllib2.urlopen(url).read())
+        _title = content.title.string
+        tag = [td_tag for td_tag in content.find_all('td') if td_tag.get('class') == [unicode("postcell")]][0]
+        body = tag.div.div.get_text()
+        _id = url.split("/")[4]
+        collection.insert({"Title": _title[0:len(_title) - 17], "Body": body, "Id": _id})
+    except:
+        pass
 
 
 def get_pages(collection):
     """
     Going over the pages in the 'votes' section
+    :type collection: pymongo.collection.Collection
     :param collection: The DataBase collection
-    :raise Exception: We've reach the limit of questions in the Database
+    :raise DataBaseFull: We've reach the limit of questions in the Database
     """
     preface = re.compile('/questions/[0-9]+')
     i = 1
