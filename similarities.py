@@ -37,7 +37,7 @@ def get_best_similarities(docs):
     similar = cosine_similarity(tfidf_matrix[0], tfidf_matrix)[0]
     most_similar = heapq.nlargest(7, similar)
     _index = 1
-    if most_similar[1] == 1.0:
+    if int(most_similar[1]) == 1.0:
         _index += 1
     index_array = []
     for i in range(5):
